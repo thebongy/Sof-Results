@@ -1,12 +1,12 @@
 import requests
 import threading
-from time import sleep
+from time import sleep,clock
 std_code = 'KA0138'
 std_class = 11
 olymp = 'NCO'
 sections = ['A','B','C','D']
-limit = 50
-conc = 10
+limit = 100
+conc = 30
 URL = 'http://results.sofworld.org/results'
 rolls = [str(i).zfill(3) for i in range(limit)]
 olymps = {'NCO':'n'}
@@ -41,6 +41,7 @@ def get_roll_result(initial=None):
 				break
 
 def main():
+	t=clock()
 	threads = []
 	for i in range(conc):
 		x = threading.Thread(target=get_roll_result)
@@ -51,7 +52,8 @@ def main():
 	
 	for thread in threads:
 		thread.join()
-
+	
+	print clock()-t
 main()
 
 for result in results:
