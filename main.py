@@ -17,12 +17,12 @@ if olymp in olymps:
 else:
 	olymp = 'n'
 
-
+fields = ['Student Name:','Roll No:','School Rank:']
 
 data = {'form_id': 'ac_result_cards_enter_rollid_form', 'rollid1': std_code, 'rollid3': sections[0], 'rollid2': std_class, 'olympiad_selected': olymp}
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
-def get_roll_result(initial=None):
+def get_roll_result():
 	while len(rolls) != 0:
 		id4 = rolls.pop()
 		payload = dict(data)
@@ -37,8 +37,15 @@ def get_roll_result(initial=None):
 				except:
 					success = False
 			if r.text.find('wrong') == -1:
-				results.append((id4,section))
+				std_data = []
+				for field in fields:
+					search = '<label>'+field+'</label></td><td>'
+					loc_ns = r.text.find(search) + len(search)
+					loc_ne = r.text.find('</td>',loc_ns)
+					std_data.append(r.text[loc_ns:loc_ne])
+				results.append(std_data)
 				break
+				
 			else:
 				success=False
 
@@ -59,5 +66,7 @@ t=time()
 main()
 print time()-t
 
+results.sort(key=lambda x:x[2])
+
 for result in results:
-	print result
+	print result[0],result[1],result[2]
