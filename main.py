@@ -1,15 +1,15 @@
 import requests
 import threading
 from time import sleep,time
-std_code = 'KA0138'
+std_code = 'KA0466'
 std_class = 11
-olymp = 'NCO'
-sections = ['A','B','C','D']
-limit = 100
-conc = 30
+olymp = 'IMO'
+sections = ['A','B','C','D','E','F','G','H','I','J']
+limit = 400
+conc = 50
 URL = 'http://results.sofworld.org/results'
 rolls = [str(i).zfill(3) for i in range(1,limit+1)]
-olymps = {'NCO':'n'}
+olymps = {'NCO':'n','IMO':'im','NSO':'z','ISKO':'s','ICSO':'m'}
 
 results = []
 if olymp in olymps:
@@ -17,7 +17,7 @@ if olymp in olymps:
 else:
 	olymp = 'n'
 
-fields = ['Student Name:','Roll No:','School Rank:']
+fields = ['Student Name:','School Rank:','Roll No:','International Rank:','Qualified For 2nd Level:']
 
 data = {'form_id': 'ac_result_cards_enter_rollid_form', 'rollid1': std_code, 'rollid3': sections[0], 'rollid2': std_class, 'olympiad_selected': olymp}
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
@@ -66,7 +66,14 @@ t=time()
 main()
 print time()-t
 
-results.sort(key=lambda x:x[2])
+def filterrolls(x):
+        if x[1].isdigit():
+                return int(x[1])
+        else:
+                return x[1]
 
+results.sort(key=filterrolls)
+formatting = '%40s%3s%20s%7s%4s'
+print formatting % tuple(fields)
 for result in results:
-	print result[0],result[1],result[2]
+	print formatting % tuple(result)
