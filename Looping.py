@@ -1,9 +1,9 @@
 import requests
 import threading
 from time import sleep,time
+sections = ['A','B']
 for rishit in range(10):
-        sections = ['A']
-        for apurva in range(10,101,10):
+        for apurva in range(100,150,10):
                 std_code = 'KA0138'
                 std_class = 11
                 olymp = 'NSO'
@@ -69,6 +69,7 @@ for rishit in range(10):
                 print "Time: ",time()-t
                 print "Sections: ",sections
 		print "Threads: ",conc
+		print
 
 ##                def filterrolls(x):
 ##                        if x[1].isdigit():
