@@ -5,7 +5,7 @@ from time import sleep,time
 #God first
 
 std_code = raw_input('Enter the school code: ')
-std_class = raw_input('Enter the class: ')
+std_class = raw_input('Enter the class: ').zfill(2)
 olymp = raw_input("Choose an olympiad: ")
 
 section_end = ord(raw_input("Enter the last section: ").upper())
@@ -23,6 +23,7 @@ for i in range(1,limit+1):
 olymps = {'NCO':'n','IMO':'im','NSO':'z','ISKO':'s','ICSO':'m'}
 
 results = []
+removed = []
 if olymp in olymps:
 	olymp = olymps[olymp]
 else:
@@ -57,17 +58,24 @@ def get_roll_result():
                                 loc_ne = r.text.find('</td>',loc_ns)
                                 std_data.append(r.text[loc_ns:loc_ne])
                         results.append(std_data)
+
+                        section_index = sections.index(idn[1])
+                        loop = False
+                        for i in sections[:section_index]:
+                                if i not in removed:
+                                        loop = True
+                                        removed.append(i)
+                        if loop:
+                                for i in rolls:
+                                        if (ord(idn[1])-ord(i[1]))*(idn[0]-i[0])<0:
+                                                try:
+                                                        rolls.remove(i)
+                                                except:
+                                                        stuff=1
                         break
                         
                 else:
                         success=False
-                if success==True and r.text.find('wrong') == -1:
-                        for i in rolls:
-                                if (ord(idn[1])-ord(i[1]))*(idn[0]-i[0])<0:
-                                        try:
-                                                rolls.remove(i)
-                                        except:
-                                                stuff=1
                         
 
 def main():
