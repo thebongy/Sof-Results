@@ -12,7 +12,7 @@ section_end = ord(raw_input("Enter the last section: ").upper())
 sections = [chr(ch) for ch in range(65,section_end+1)]
 
 limit = 50*len(sections)
-conc = 50
+conc = 30
 URL = 'http://results.sofworld.org/results'
 rolls=[]
 for i in range(1,limit+1):
@@ -41,43 +41,38 @@ def get_roll_result():
                 payload['rollid4'] = str(idn[0]).zfill(3)
                 success=False
 		
-
+                payload['rollid3'] = idn[1]
                 while not success:
-                        payload['rollid3'] = idn[1]
                         try:
                                 r = requests.post(URL, data=payload, headers=headers,timeout=3)
                                 success=True
                         except:
                                 success = False
                                 
-                if r.text.find('wrong')==-1:
-                        std_data = []
-                        for field in fields:
-                                search = '<label>'+field+'</label></td><td>'
-                                loc_ns = r.text.find(search) + len(search)
-                                loc_ne = r.text.find('</td>',loc_ns)
-                                std_data.append(r.text[loc_ns:loc_ne])
-                        results.append(std_data)
+                        if r.text.find('wrong')==-1:
+                                std_data = []
+                                for field in fields:
+                                        search = '<label>'+field+'</label></td><td>'
+                                        loc_ns = r.text.find(search) + len(search)
+                                        loc_ne = r.text.find('</td>',loc_ns)
+                                        std_data.append(r.text[loc_ns:loc_ne])
+                                results.append(std_data)
 
-                        section_index = sections.index(idn[1])
-                        loop = False
-                        for i in sections[:section_index]:
-                                if i not in removed:
-                                        loop = True
-                                        removed.append(i)
-                        if loop:
-                                for i in rolls:
-                                        if (ord(idn[1])-ord(i[1]))*(idn[0]-i[0])<0:
-                                                try:
-                                                        rolls.remove(i)
-                                                        print i
-                                                except:
-                                                        stuff=1
-                        break
-                        
-                else:
-                        success=False
-                        
+                                section_index = sections.index(idn[1])
+                                loop = False
+                                for i in sections[:section_index]:
+                                        if i not in removed:
+                                                loop = True
+                                                removed.append(i)
+                                if loop:
+                                        for i in rolls:
+                                                if (ord(idn[1])-ord(i[1]))*(idn[0]-i[0])<0:
+                                                        try:
+                                                                rolls.remove(i)
+                                                        except:
+                                                                stuff=1
+                                break
+                                
 
 def main():
 	threads = []
@@ -101,7 +96,7 @@ def filterrolls(x):
         else:
                 return x[1]
 
-
+print rolls
 results.sort(key=filterrolls)
 formatting = '%30s %15s %18s %23s %8s'
 print formatting % tuple(fields)
