@@ -12,7 +12,7 @@ section_end = ord(raw_input("Enter the last section: ").upper())
 sections = [chr(ch) for ch in range(65,section_end+1)]
 
 limit = 50*len(sections)
-conc = limit/3
+conc = 50
 URL = 'http://results.sofworld.org/results'
 rolls=[]
 for i in range(1,limit+1):
@@ -70,6 +70,7 @@ def get_roll_result():
                                         if (ord(idn[1])-ord(i[1]))*(idn[0]-i[0])<0:
                                                 try:
                                                         rolls.remove(i)
+                                                        print i
                                                 except:
                                                         stuff=1
                         break
