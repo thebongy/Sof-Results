@@ -2,6 +2,7 @@ import requests
 import threading
 from time import sleep,time
 
+#God first
 
 std_code = raw_input('Enter the school code: ')
 std_class = raw_input('Enter the class: ')
