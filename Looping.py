@@ -66,20 +66,19 @@ for rishit in range(10):
 
                 t=time()
                 main()
-                koushik = time()-t
-                print "Time: ",Koushik
-                print "Sections: ",apurva
+                print "Time: ",time()-t
+                print "Sections: ",sections
 		print "Threads: ",conc
 
-                def filterrolls(x):
-                        if x[1].isdigit():
-                                return int(x[1])
-                        else:
-                                return x[1]
-
-                results.sort(key=filterrolls)
-                formatting = '%40s%3s%20s%7s%4s'
-                print formatting % tuple(fields)
-                for result in results:
-                        print formatting % tuple(result)
+##                def filterrolls(x):
+##                        if x[1].isdigit():
+##                                return int(x[1])
+##                        else:
+##                                return x[1]
+##
+##                results.sort(key=filterrolls)
+##                formatting = '%40s%3s%20s%7s%4s'
+##                print formatting % tuple(fields)
+##                for result in results:
+##                        print formatting % tuple(result)
         sections.append(chr(ord(sections[-1])+1))
