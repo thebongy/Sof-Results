@@ -19,7 +19,6 @@ for i in range(1,limit+1):
         for j in sections:
                 rolls.append([i,j])
                 
-print rolls
 ##rolls = [str(i).zfill(3) for i in range(1,limit+1)]
 olymps = {'NCO':'n','IMO':'im','NSO':'z','ISKO':'s','ICSO':'m'}
 
@@ -36,20 +35,20 @@ headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleW
 
 def get_roll_result():
         while len(rolls) != 0:
-                idn = rolls.pop()
+                idn = rolls.pop(0)
                 payload = dict(data)
-                payload['rollid4'] = idn[0]
+                payload['rollid4'] = str(idn[0]).zfill(3)
                 success=False
 		
 
                 while not success:
                         payload['rollid3'] = idn[1]
                         try:
-                                r = requests.post(URL, data=payload, headers=headers,timeout=5)
+                                r = requests.post(URL, data=payload, headers=headers,timeout=3)
                                 success=True
                         except:
                                 success = False
-                z=1                
+                                
                 if r.text.find('wrong')==-1:
                         std_data = []
                         for field in fields:
@@ -57,7 +56,6 @@ def get_roll_result():
                                 loc_ns = r.text.find(search) + len(search)
                                 loc_ne = r.text.find('</td>',loc_ns)
                                 std_data.append(r.text[loc_ns:loc_ne])
-                        print 'hello'
                         results.append(std_data)
                         break
                         
@@ -65,7 +63,7 @@ def get_roll_result():
                         success=False
                 if success==True and r.text.find('wrong') == -1:
                         for i in rolls:
-                                if (ord(idn[1])-ord(i[1]))*(idn[1]-i[1])<0:
+                                if (ord(idn[1])-ord(i[1]))*(idn[0]-i[0])<0:
                                         try:
                                                 rolls.remove(i)
                                         except:
@@ -94,7 +92,7 @@ def filterrolls(x):
         else:
                 return x[1]
 
-print results
+
 results.sort(key=filterrolls)
 formatting = '%30s %15s %18s %23s %8s'
 print formatting % tuple(fields)
