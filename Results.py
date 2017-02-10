@@ -3,11 +3,11 @@ import threading
 from time import sleep,time
 
 
-std_code = raw_input('Enter the school code: ')
-std_class = raw_input('Enter the class: ').zfill(2)
-olymp = raw_input("Choose an olympiad: ")
+std_code = raw_input('Enter the school code provided by SOF: ').upper()
+std_class = raw_input('Enter the class to be searched: ').zfill(2)
+olymp = raw_input("Choose an olympiad (NCO/NSO/IMO/ICSO/ISKO): ")
 
-section_end = ord(raw_input("Enter the last section: ").upper())
+section_end = ord(raw_input("Enter the last section to be searched: ").upper())
 sections = [chr(ch) for ch in range(65,section_end+1)]
 
 limit = 50*len(sections)
