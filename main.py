@@ -2,7 +2,6 @@ import requests
 import threading
 from time import sleep,time
 
-#God first
 
 std_code = raw_input('Enter the school code: ')
 std_class = raw_input('Enter the class: ').zfill(2)
@@ -14,12 +13,12 @@ sections = [chr(ch) for ch in range(65,section_end+1)]
 limit = 50*len(sections)
 conc = 30
 URL = 'http://results.sofworld.org/results'
+
 rolls=[]
 for i in range(1,limit+1):
         for j in sections:
                 rolls.append([i,j])
                 
-##rolls = [str(i).zfill(3) for i in range(1,limit+1)]
 olymps = {'NCO':'n','IMO':'im','NSO':'z','ISKO':'s','ICSO':'m'}
 
 results = []
@@ -64,6 +63,7 @@ def get_roll_result():
                                         if i not in removed:
                                                 loop = True
                                                 removed.append(i)
+                                                
                                 if loop:
                                         for i in rolls:
                                                 if (ord(idn[1])-ord(i[1]))*(idn[0]-i[0])<0:
@@ -85,9 +85,7 @@ def main():
 		thread.join()
 
 
-t=time()
 main()
-print time()-t
 
 
 def filterrolls(x):
@@ -96,7 +94,7 @@ def filterrolls(x):
         else:
                 return x[1]
 
-print rolls
+
 results.sort(key=filterrolls)
 formatting = '%30s %15s %18s %23s %8s'
 print formatting % tuple(fields)
